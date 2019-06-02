@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://198.13.47.188:19762/ApproveDB
+    username: mrbluesky
+    password: kang12!@
+  jpa:
+    database: mysql
+    #    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate # 운영시에는 validate 추천
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
