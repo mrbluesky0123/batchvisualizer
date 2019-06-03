@@ -30,9 +30,8 @@ public class BatchProgram {
   @Column(name = "file_yn")
   private String hasInputFile;
 
-//  @OneToMany
   @Column(name = "file_id")
-  private List<BatchFile> batchFile;
+  private String fileId;
 
   @Column(name = "res_file_send_yn")
   private String sendResultFile;

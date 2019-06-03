@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BatchProgramRepository extends JpaRepository<BatchProgram, BatchProgramId> {
 
-  List<BatchProgram> findByBatchName(String batchProcId);
+  List<BatchProgram> findByBatchProgramId(BatchProgramId batchProgramId);
 
 }

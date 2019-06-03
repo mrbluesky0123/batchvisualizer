@@ -18,8 +18,7 @@ import lombok.NoArgsConstructor;
 public class BatchFile {
 
   @Id
-  @ManyToOne(targetEntity = BatchProgram.class)
-  @JoinColumn(name="file_id")
+  @Column(name="file_id")
   private String fileId;
 
   @Column(name = "file_hnm")

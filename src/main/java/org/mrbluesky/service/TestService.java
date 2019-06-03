@@ -4,6 +4,7 @@ import java.util.List;
 import org.mrbluesky.persistence.BatchFileRepository;
 import org.mrbluesky.persistence.BatchProgramRepository;
 import org.mrbluesky.vo.entity.BatchProgram;
+import org.mrbluesky.vo.entity.BatchProgramId;
 import org.mrbluesky.vo.output.BatchSelectTestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +24,15 @@ public class TestService {
   }
 
 
-  public BatchSelectTestResponse testService(String batchName){
+  public BatchSelectTestResponse testService( String system, Integer seq, String batchName){
 
     List<BatchProgram> batches = null;
-    if(batchName == null) {
+    if(seq == null && system == null && batchName == null) {
       batches = batchProgramRepository.findAll();
+    } else if(seq != null && system != null && batchName != null) {
+      batches = batchProgramRepository.findByBatchProgramId(new BatchProgramId(system, seq, batchName));
     } else {
-      batches = batchProgramRepository.findByBatchName(batchName);
+      return null;
     }
 
     return new BatchSelectTestResponse(batches);
