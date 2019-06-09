@@ -3,39 +3,60 @@ package org.mrbluesky.service;
 import java.util.List;
 import org.mrbluesky.persistence.BatchFileRepository;
 import org.mrbluesky.persistence.BatchProgramRepository;
+import org.mrbluesky.persistence.ErrorRepository;
+import org.mrbluesky.vo.entity.Error;
 import org.mrbluesky.vo.entity.BatchProgram;
 import org.mrbluesky.vo.entity.BatchProgramId;
-import org.mrbluesky.vo.output.BatchSelectTestResponse;
+import org.mrbluesky.vo.output.BatchSelectResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestService {
+public class BatchVisualizerService {
 
   private BatchFileRepository batchFileRepository;
   private BatchProgramRepository batchProgramRepository;
+  private ErrorRepository errorRepository;
 
   @Autowired
-  public TestService(BatchFileRepository batchFileRepository, BatchProgramRepository batchProgramRepository){
+  public BatchVisualizerService(BatchFileRepository batchFileRepository,
+      BatchProgramRepository batchProgramRepository, ErrorRepository errorRepository){
 
     this.batchFileRepository = batchFileRepository;
     this.batchProgramRepository = batchProgramRepository;
+    this.errorRepository = errorRepository;
 
   }
 
 
-  public BatchSelectTestResponse testService( String system, Integer seq, String batchName){
+  public BatchSelectResponse batchVisualizerService(String system, Integer seq, String batchName){
 
-    List<BatchProgram> batches = null;
+    Error error;
+    List<BatchProgram> batches;
+    BatchSelectResponse batchSelectResponse = null;
+    String errorCode = "";
+
     if(seq == null && system == null && batchName == null) {
       batches = batchProgramRepository.findAll();
     } else if(seq != null && system != null && batchName != null) {
       batches = batchProgramRepository.findByBatchProgramId(new BatchProgramId(system, seq, batchName));
+      if(batches.size() == 0){
+        errorCode = "1001";
+        error = errorRepository.findByErrorCode(errorCode);
+        batchSelectResponse = new BatchSelectResponse(error, null);
+        return batchSelectResponse;
+      }
     } else {
-      return null;
+      errorCode = "1003";
+      error = errorRepository.findByErrorCode(errorCode);
+      batchSelectResponse = new BatchSelectResponse(error, null);
+      return batchSelectResponse;
     }
 
-    return new BatchSelectTestResponse(batches);
+    errorCode = "0000";
+    error = errorRepository.findByErrorCode(errorCode);
+    batchSelectResponse = new BatchSelectResponse(error, batches);
+    return batchSelectResponse;
 
   }
 

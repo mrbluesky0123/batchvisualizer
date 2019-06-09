@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mariadb://(your host)/ApproveDB
-    username: (your name)
-    password: (your passwd)
+    url: jdbc:mariadb://198.13.47.188:19762/ApproveDB
+    username: 
+    password:
   jpa:
     database: mysql
     #    database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -11,3 +11,6 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+
+
+
